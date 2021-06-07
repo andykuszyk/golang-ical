@@ -398,6 +398,21 @@ func (calendar *Calendar) AddEvent(id string) *VEvent {
 	calendar.Components = append(calendar.Components, e)
 	return e
 }
+func (calendar *Calendar) AddEntireEvent(event *VEvent) {
+	calendar.Components = append(calendar.Components, event)
+}
+func (calendar *Calendar) ClearEvents() {
+	components := make([]Component, 0)
+	for _, c := range calendar.Components {
+		switch c.(type) {
+		case *VEvent:
+			continue
+		default:
+			components = append(components, c)
+		}
+	}
+	calendar.Components = components
+}
 func (calendar *Calendar) Events() (r []*VEvent) {
 	r = []*VEvent{}
 	for i := range calendar.Components {
